@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import MainLayout from '../../components/MainLayout'
+import MainLayout from '@/components/MainLayout'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -11,7 +11,7 @@ import { Calendar } from 'lucide-react'
 import { db } from '../../lib/firebase'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { toast } from "@/components/ui/use-toast"
-import { GoalDetailSkeleton } from '../../components/GoalDetailSkeleton'
+import { GoalDetailSkeleton } from '@/components/GoalDetailSkeleton'
 
 type Task = {
   id: string

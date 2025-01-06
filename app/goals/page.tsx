@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import MainLayout from '../components/MainLayout'
+import MainLayout from '@/components/MainLayout'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { PlusCircle, Settings } from 'lucide-react'
 import { db } from '../lib/firebase'
 import { collection, query, getDocs, orderBy } from 'firebase/firestore'
-import { GoalSkeleton } from '../components/GoalSkeleton'
+import { GoalSkeleton } from '@/components/GoalSkeleton'
 import { toast } from "@/components/ui/use-toast"
 
 type Goal = {

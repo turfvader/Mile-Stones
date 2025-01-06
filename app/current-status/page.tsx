@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import MainLayout from '../components/MainLayout'
+import MainLayout from '@/components/MainLayout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -37,13 +37,13 @@ export default function CurrentStatus() {
 
   const handleSendMessage = () => {
     if (input.trim()) {
-      const updatedMessages = [...messages, { role: 'user', content: input }]
+      const updatedMessages = [...messages, { role: 'user' as const, content: input }]
       setMessages(updatedMessages)
       setInput('')
       // Simulate AI response
       setTimeout(() => {
-        setMessages(prevMessages => [...prevMessages, { 
-          role: 'ai', 
+        setMessages(prev => [...prev, { 
+          role: 'ai' as const, 
           content: 'これまでに似た目標を達成した経験はありますか？' 
         }])
       }, 1000)

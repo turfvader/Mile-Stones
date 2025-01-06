@@ -18,18 +18,28 @@ type Milestone = {
 }
 
 type GoalSettingContextType = {
-  goal: string
-  setGoal: (goal: string) => void
-  goalDate: string
-  setGoalDate: (date: string) => void
-  milestones: Milestone[]
-  setMilestones: (milestones: Milestone[]) => void
-  currentStep: 'set-goal' | 'current-status' | 'create-milestones'
-  setCurrentStep: (step: 'set-goal' | 'current-status' | 'create-milestones') => void
-  resetGoalSetting: () => void
+  goal: string;
+  setGoal: (goal: string) => void;
+  goalDate: string;
+  setGoalDate: (date: string) => void;
+  milestones: Milestone[];
+  setMilestones: (milestones: Milestone[]) => void;
+  currentStep: 'set-goal' | 'current-status' | 'create-milestones';
+  setCurrentStep: (step: 'set-goal' | 'current-status' | 'create-milestones') => void;
+  resetGoalSetting: () => void;
 }
 
-const GoalSettingContext = createContext<GoalSettingContextType | undefined>(undefined)
+export const GoalSettingContext = createContext<GoalSettingContextType>({
+  goal: '',
+  setGoal: () => {},
+  goalDate: '',
+  setGoalDate: () => {},
+  milestones: [],
+  setMilestones: () => {},
+  currentStep: 'set-goal',
+  setCurrentStep: () => {},
+  resetGoalSetting: () => {}
+})
 
 export const useGoalSetting = () => {
   const context = useContext(GoalSettingContext)

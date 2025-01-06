@@ -41,11 +41,11 @@ export default function CalendarPage() {
             return new Date(date);
           };
 
-          const task = {
+          const task: Task = {
             id: doc.id,
             title: data.title,
-            startDate: parseFirestoreDate(data.startDate),
-            endDate: parseFirestoreDate(data.endDate),
+            startDate: parseFirestoreDate(data.startDate).toISOString(),
+            endDate: parseFirestoreDate(data.endDate).toISOString(),
             frequency: data.frequency || '単発',
             completed: data.completed || false,
             addedToCalendar: data.addedToCalendar || true,

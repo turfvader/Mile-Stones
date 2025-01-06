@@ -2,26 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import MainLayout from '../components/MainLayout'
+import MainLayout from '@/components/MainLayout'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Plus } from 'lucide-react'
 import { toast } from "@/components/ui/use-toast"
-import { TaskList } from '../components/TaskList'
-import { TaskCreationModal } from '../components/TaskCreationModal'
+import { TaskList } from '@/components/TaskList'
+import { TaskCreationModal } from '@/components/TaskCreationModal'
 import { db } from '../lib/firebase'
 import { collection, query, where, onSnapshot } from 'firebase/firestore'
-
-type Task = {
-  id: string;
-  title: string;
-  startTime: string;
-  endTime: string;
-  startDate: string;
-  endDate: string;
-  frequency: string;
-  completed: boolean;
-}
+import { Task } from '@/types/task'
 
 export default function Schedule() {
   const router = useRouter()
@@ -40,12 +30,12 @@ export default function Schedule() {
         fetchedTasks.push({
           id: doc.id,
           title: taskData.title,
-          startTime: '09:00', // Default start time
-          endTime: '10:00',   // Default end time
           startDate: taskData.startDate,
           endDate: taskData.endDate,
           frequency: taskData.frequency,
-          completed: false
+          completed: false,
+          addedToCalendar: true,
+          categoryColor: taskData.categoryColor
         })
       })
       setTasks(fetchedTasks)
@@ -60,18 +50,38 @@ export default function Schedule() {
     }
   }
 
-  const handleAddTask = (newTask: Task) => {
-    setTasks([...tasks, { ...newTask, id: Date.now().toString(), completed: false }])
+  const handleAddTask = (taskData: { 
+    title: string; 
+    date: Date; 
+    startTime: string; 
+    endTime: string; 
+    categoryColor: string; 
+  }) => {
+    const newTask: Task = {
+      id: Date.now().toString(),
+      title: taskData.title,
+      startDate: taskData.date.toISOString(),
+      endDate: taskData.date.toISOString(),
+      frequency: '単発',
+      completed: false,
+      addedToCalendar: true,
+      categoryColor: taskData.categoryColor
+    }
+    setTasks(prev => [...prev, newTask])
     toast({
       title: "タスクを追加しました",
       description: "新しいタスクがカレンダーに追加されました。",
     })
   }
 
-  const handleToggleComplete = (taskId: string) => {
+  const handleTaskUpdate = (updatedTask: Task) => {
     setTasks(tasks.map(task => 
-      task.id === taskId ? { ...task, completed: !task.completed } : task
+      task.id === updatedTask.id ? updatedTask : task
     ))
+  }
+
+  const handleTaskDelete = async (taskId: string) => {
+    setTasks(tasks.filter(task => task.id !== taskId))
   }
 
   const tasksForSelectedDate = tasks.filter(task => {
@@ -99,7 +109,8 @@ export default function Schedule() {
             </h2>
             <TaskList
               tasks={tasksForSelectedDate}
-              onToggleComplete={handleToggleComplete}
+              onTaskUpdate={handleTaskUpdate}
+              onTaskDelete={handleTaskDelete}
             />
           </div>
         </div>
@@ -115,7 +126,6 @@ export default function Schedule() {
         isOpen={isTaskModalOpen}
         onClose={() => setIsTaskModalOpen(false)}
         onSave={handleAddTask}
-        selectedDate={selectedDate}
       />
     </MainLayout>
   )

@@ -1,7 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
-import { GoalSettingProvider } from './contexts/GoalSettingContext'
+import { GoalSettingProvider } from '@/components/GoalSettingContext'
 
 const inter = Inter({ subsets: ['latin'] })
 

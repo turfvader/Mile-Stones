@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import MainLayout from '../components/MainLayout'
+import MainLayout from '@/components/MainLayout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Pencil, ChevronRight, ChevronDown, Plus, Check } from 'lucide-react'
